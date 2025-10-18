@@ -43,7 +43,7 @@ class TestFileDownloadFlow:
         assert res.status_code == 200
         res_json = res.json()
         assert res_json["code"] == 200
-        print("✅ 登录成功，Cookie:", cls.session.cookies.get_dict())
+        print("登录成功，Cookie:", cls.session.cookies.get_dict())
 
     @allure.story("1. 获取文件列表")
     def test_get_file_list(self):
@@ -65,7 +65,7 @@ class TestFileDownloadFlow:
         # 取第一个文件ID
         TestFileDownloadFlow.file_id = json_data["data"]["list"][0]["fileId"]
         TestFileDownloadFlow.file_name = json_data["data"]["list"][0]["fileName"]
-        print(f"✅ 获取文件ID: {self.file_id} 文件名: {self.file_name}")
+        print(f"获取文件ID: {self.file_id} 文件名: {self.file_name}")
 
     @allure.story("2. 创建下载链接")
     def test_create_download_url(self):
@@ -86,7 +86,7 @@ class TestFileDownloadFlow:
         else:
             TestFileDownloadFlow.download_token = json_data["data"]["downloadUrl"]
 
-        print(f"✅ 获取下载token: {self.download_token}")
+        print(f"获取下载token: {self.download_token}")
 
     @allure.story("3. 下载文件并验证内容")
     def test_download_file(self):
@@ -108,7 +108,7 @@ class TestFileDownloadFlow:
 
         # 验证文件大小
         file_size = os.path.getsize(local_path)
-        print(f"✅ 下载完成，文件大小：{file_size} bytes")
+        print(f"下载完成，文件大小：{file_size} bytes")
         assert file_size > 0, "下载文件为空！"
 
         # MD5 校验

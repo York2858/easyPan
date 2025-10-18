@@ -30,7 +30,7 @@ class TestFileUpload:
             "password": "2303de05fb0b3646775945cad78ec664",  # 已加密密码
             "checkCode": "testa"
         }
-        # 🚀 直接用 self.session 发送登录请求
+        # 直接用 self.session 发送登录请求
         res = self.session.post(url, data=payload)
         print("登录响应:", res.text)
         assert res.status_code == 200
@@ -56,7 +56,7 @@ class TestFileUpload:
     #     assert res.status_code == 200
     #     json_data = res.json()
     #     assert json_data["code"] == 200, f"接口返回错误: {json_data}"
-    #     print("✅ 成功获取文件列表")
+    #     print("成功获取文件列表")
 
     #     if json_data["data"]["totalCount"] > 0:
     #         first_file = json_data["data"]["list"][0]
@@ -65,7 +65,7 @@ class TestFileUpload:
 
     
     @pytest.mark.parametrize("file_path", [
-        r"C:\Users\l2858\Desktop\简历\李佳鑫简历.pdf",  # ⚠️换成你自己的测试文件路径
+        r"C:\Users\l2858\Desktop\简历\李佳鑫简历.pdf",  # 换成你自己的测试文件路径
     ])
     @allure.story("分片上传 + 秒传验证")
     def test_upload_file(self, file_path):
@@ -86,12 +86,12 @@ class TestFileUpload:
 
         # === 第一次上传 ===
         upload_status = self.upload_file_chunks(file_path, file_name, file_pid, file_md5, chunks, chunk_size)
-        assert upload_status == "upload_finish", f"❌ 第一次上传未完成：{upload_status}"
+        assert upload_status == "upload_finish", f"第一次上传未完成：{upload_status}"
 
         # === 第二次上传，测试秒传 ===
         with allure.step("验证秒传逻辑"):
             status = self.upload_file_chunks(file_path, file_name, file_pid, file_md5, chunks, chunk_size)
-            assert status == "upload_seconds", f"❌ 秒传验证失败，返回状态：{status}"
+            assert status == "upload_seconds", f"秒传验证失败，返回状态：{status}"
 
     # 内部上传函数
     def upload_file_chunks(self, file_path, file_name, file_pid, file_md5, chunks, chunk_size):
@@ -126,9 +126,9 @@ class TestFileUpload:
                     file_id = result.get("fileId", file_id)
 
                     if status == "uploading":
-                        print(f"📦 分片 {i+1}/{chunks} 上传中")
+                        print(f"分片 {i+1}/{chunks} 上传中")
                         continue
                     elif status in ("upload_finish", "upload_seconds"):
-                        print(f"✅ 上传完成，状态：{status}")
+                        print(f"上传完成，状态：{status}")
                         return status
         return status
